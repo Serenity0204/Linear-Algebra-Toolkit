@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Boxes</title>
+</head>
+<body>
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <label for="id_rows">Number of Rows:</label>
+        <input type="number" name="rows" id="id_rows" required>
+        <br>
+        <label for="id_columns">Number of Columns:</label>
+        <input type="number" name="columns" id="id_columns" required>
+        <br>
+        <input type="submit" value="Generate">
+    </form>
+    
+    {% if boxes %}
+        <h2>Generated Boxes:</h2>
+        {% for row in boxes %}
+            {% for box in row %}
+                <input type="text" name="{{ box }}" value="{{ box }}">
+            {% endfor %}
+            <br>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
