@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("rref/", views.RREF_view, name="rref"),
+    path("rref/", views.rref_view, name="rref"),
+    path("nullspace/", views.nullspace_view, name="nullspace"),
 ]
