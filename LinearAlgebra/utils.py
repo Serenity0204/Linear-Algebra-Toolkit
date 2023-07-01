@@ -49,7 +49,25 @@ def find_colspace(twoDArr):
     for basis in colspace_basis:
         basis_vector = basis.tolist()
         bases_list.append(basis_vector)
-    colspace_str = "Colspace(Input Matrix) = Span({"
+    colspace_str = "Range(Input Matrix) = Colspace(Input Matrix) = Span({"
     colspace_str += basis_helper(bases_list)
     colspace_str += "})"
     return colspace_str
+
+
+def find_rowspace(twoDArr):
+    matrix = Matrix(twoDArr)
+    row_basis = matrix.rowspace()
+    bases_list = []
+    for basis in row_basis:
+        basis_vector = basis.tolist()
+        bases_list.append(basis_vector)
+    rowspace_str = "Rowspace(Input Matrix) = Span({"
+    rowspace_str += basis_helper(bases_list)
+    rowspace_str += "})"
+    return rowspace_str
+
+
+# def find_eigenspace(twoDArr):
+#     matrix = Matrix(twoDArr)
+#     eigen_basis = matrix.eigenvects()

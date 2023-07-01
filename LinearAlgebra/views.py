@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import json
-from .utils import find_rref, find_nullspace, find_colspace
+from .utils import *
 
 
 def index(request):
@@ -43,7 +43,8 @@ def colspace_and_rowspace_view(request):
         if not original_matrix:
             return redirect("index")
         colspace = find_colspace(original_matrix)
-        context = {"spaces": [colspace, colspace], "original_matrix": original_matrix}
+        rowspace = find_rowspace(original_matrix)
+        context = {"spaces": [colspace, rowspace], "original_matrix": original_matrix}
         return render(request, "space.html", context)
     else:
         return redirect("index")
