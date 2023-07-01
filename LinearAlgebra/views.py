@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import json
-from .utils import find_rref
+from .utils import find_rref, find_nullspace, find_colspace
 
 
 def index(request):
@@ -15,13 +15,8 @@ def rref_view(request):
             return redirect("index")
 
         matrix = find_rref(original_matrix)
-        operation = "RREF"
-        context = {
-            "matrix": matrix,
-            "original_matrix": original_matrix,
-            "operation": operation,
-        }
-        return render(request, "matrix.html", context)
+        context = {"matrix": matrix, "original_matrix": original_matrix}
+        return render(request, "rref.html", context)
     else:
         return redirect("index")
 
@@ -34,13 +29,21 @@ def nullspace_view(request):
         if not original_matrix:
             return redirect("index")
 
-        matrix = find_rref(original_matrix)
-        operation = "Nullspace"
-        context = {
-            "matrix": matrix,
-            "original_matrix": original_matrix,
-            "operation": operation,
-        }
-        return render(request, "matrix.html", context)
+        nullspace = find_nullspace(original_matrix)
+        context = {"spaces": [nullspace], "original_matrix": original_matrix}
+        return render(request, "space.html", context)
+    else:
+        return redirect("index")
+
+
+def colspace_and_rowspace_view(request):
+    if request.method == "POST":
+        matrix_data = request.POST.get("matrixData", "[]")
+        original_matrix = json.loads(matrix_data)
+        if not original_matrix:
+            return redirect("index")
+        colspace = find_colspace(original_matrix)
+        context = {"spaces": [colspace, colspace], "original_matrix": original_matrix}
+        return render(request, "space.html", context)
     else:
         return redirect("index")

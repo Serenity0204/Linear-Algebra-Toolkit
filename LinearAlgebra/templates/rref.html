@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="text-center">
+            <h1>Matrix</h1>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        {% for row in original_matrix %}
+                            <tr>
+                                {% for value in row %}
+                                    <td class="border">{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <h1>RREF</h1>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        {% for row in matrix %}
+                            <tr>
+                                {% for value in row %}
+                                    <td class="border">{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

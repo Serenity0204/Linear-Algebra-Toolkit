@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <title>Linear Algebra Toolkit</title>
@@ -7,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.3/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.3/mode/clike/clike.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.3/addon/edit/closebrackets.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/eduboost.ico' %}"/>
 </head>
 <body>
     <div class="container">
@@ -22,6 +24,7 @@
             </div>
             <button type="button" class="btn btn-primary" onclick="generateMatrix()">Generate Matrix</button>
             <hr>
+            <div id="grid" class="pt-4"></div>
             <div class="d-flex justify-content-center">
                 <form id="rrefForm" action="{% url 'rref' %}" method="post">
                     {% csrf_token %}
@@ -31,10 +34,14 @@
                 <form id="nullspaceForm" action="{% url 'nullspace' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" id="nullspaceMatrixData" name="matrixData" value="">
-                    <button type="button" class="btn btn-primary" onclick="sendMatrixData('nullspaceForm')">Nullspace</button>
+                    <button type="button" class="btn btn-primary mr-2" onclick="sendMatrixData('nullspaceForm')">Kernel and Nullspace</button>
+                </form>
+                <form id="colrowspaceForm" action="{% url 'colspace_and_rowspace' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="colspaceAndRowspaceMatrixData" name="matrixData" value="">
+                    <button type="button" class="btn btn-primary mr-2" onclick="sendMatrixData('colrowspaceForm')">Colspace And Rowspace</button>
                 </form>
             </div>
-            <div id="grid" class="pt-4"></div>
         </div>
         {% block content %}
         {% endblock %}
@@ -59,7 +66,7 @@
 
             var gridContainer = document.getElementById('grid');
             gridContainer.innerHTML = '';
-
+            if(rows > 0) gridContainer.innerHTML = "<h1>New Matrix</h1>"
             for (var i = 0; i < rows; i++) {
                 var row = document.createElement('div');
                 row.classList.add('row');
@@ -106,6 +113,10 @@
             if (formName == 'nullspaceForm') {
                 document.getElementById('nullspaceMatrixData').value = JSON.stringify(matrixData);
                 document.getElementById('nullspaceForm').submit();
+            }
+            if(formName == "colrowspaceForm") {
+                document.getElementById('colspaceAndRowspaceMatrixData').value = JSON.stringify(matrixData);
+                document.getElementById('colrowspaceForm').submit();
             }
         }
         

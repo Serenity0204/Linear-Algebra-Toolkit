@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div class="text-center">
-            <h1>Original Matrix</h1>
+            <h1>Matrix</h1>
             <div class="row">
                 <div class="col">
                     <table class="table">
@@ -17,20 +17,9 @@
                     </table>
                 </div>
             </div>
-            <h1>{{ operation }}</h1>
-            <div class="row">
-                <div class="col">
-                    <table class="table">
-                        {% for row in matrix %}
-                            <tr>
-                                {% for value in row %}
-                                    <td class="border">{{ value }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
+            {% for space in spaces %}
+                <h1>{{ space }}</h1>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
