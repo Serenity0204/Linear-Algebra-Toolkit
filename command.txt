@@ -32,7 +32,9 @@ Django:
     python manage.py runserver
     python manage.py createsuperuser
 
-	
+TERMINAL(Windows):
+    tab to view next
+    type filename.txt to view file on terminal
 
 
 
