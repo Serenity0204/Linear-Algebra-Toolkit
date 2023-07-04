@@ -24,7 +24,7 @@ def generate_matrix_view(request):
         # Save the matrix in the database
         matrix = MatrixStore(data=original_matrix)
         matrix.save()
-
+        MatrixStore.objects.exclude(id=MatrixStore.objects.latest("id").id).delete()
     return redirect("index")
 
 
