@@ -1,3 +1,108 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="text-center">
+    <h1>Create Matrix</h1>
+    <div class="form-group">
+        <label for="rows">Number of Rows (m):</label>
+        <input type="number" class="form-control" id="rows" placeholder="Enter the number of rows" oninput="validateRowAndColInput(this)">
+    </div>
+    <div class="form-group">
+        <label for="columns">Number of Columns (n):</label>
+        <input type="number" class="form-control" id="columns" placeholder="Enter the number of columns" oninput="validateRowAndColInput(this)">
+    </div>
+    <div style="display: inline-block; margin-right: 10px;">
+        <button type="button" class="btn btn-primary" onclick="generateMatrix()">Show Input Matrix</button>
+    </div>
+    <div style="display: inline-block;">
+    <form id="matrixForm" action="{% url 'matrix' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="matrixData" name="matrixData" value="">
+        <button type="button" class="btn btn-primary" onclick="sendMatrixData('matrixForm')">Submit and Generate Matrix</button>
+    </form>
+    </div>
+      
+    <hr>
+    <div id="grid" class="pt-4"></div>
+    {% if global_matrix %}
+    <div class="d-flex justify-content-center">
+        <form method="POST" action="{% url 'rref' %}">
+            {% csrf_token %}
+            <button type="submit"class="btn btn-primary mr-2">RREF</button>
+        </form>
+        <form method="POST" action="{% url 'nullspace' %}">
+            {% csrf_token %}
+            <button type="submit"class="btn btn-primary mr-2">Nullspace</button>
+        </form>
+        <form method="POST" action="{% url 'colspace_and_rowspace' %}">
+            {% csrf_token %}
+            <button type="submit"class="btn btn-primary mr-2">Colspace and Rowspace</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function validateInput(input) {
+        input.value = input.value.replace(/[^0-9.]/g, ''); // Allow only digits and decimal point
+    }
+    function validateRowAndColInput(input) {
+        const value = parseInt(input.value);
+        if (Number.isInteger(value) && value >= 1 && value <= 10) {
+            input.value = value;
+            return;
+        } 
+        input.value = '';
+    }
+    function generateMatrix() {
+        var rows = parseInt(document.getElementById('rows').value);
+        var columns = parseInt(document.getElementById('columns').value);
+
+        var gridContainer = document.getElementById('grid');
+        gridContainer.innerHTML = '';
+        if(rows > 0) gridContainer.innerHTML = "<h1>New Matrix</h1>"
+        for (var i = 0; i < rows; i++) {
+            var row = document.createElement('div');
+            row.classList.add('row');
+
+            for (var j = 0; j < columns; j++) {
+                var column = document.createElement('div');
+                column.classList.add('col', 'mb-3');
+
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.classList.add('form-control');
+                input.setAttribute('pattern', '[0-9]*');
+                input.setAttribute('inputmode', 'decimal');
+                input.value = '0'; // Set default value to 0
+                input.oninput = function () { validateInput(this); };
+
+                column.appendChild(input);
+                row.appendChild(column);
+            }
+
+            gridContainer.appendChild(row);
+        }
+    }
+    function sendMatrixData(formName) {
+        var rows = parseInt(document.getElementById('rows').value);
+        var columns = parseInt(document.getElementById('columns').value);
+        var matrixData = [];
+    
+        for (var i = 0; i < rows; i++) {
+            var rowInputs = document.querySelectorAll('#grid .row')[i].querySelectorAll('input');
+            var rowData = [];
+    
+            for (var j = 0; j < columns; j++) {
+                rowData.push(parseFloat(rowInputs[j].value));
+            }
+    
+            matrixData.push(rowData);
+        }
+        if(formName == "matrixForm") {
+            document.getElementById('matrixData').value = JSON.stringify(matrixData);
+            document.getElementById('matrixForm').submit();
+        }
+    }
+    
+</script>
 {% endblock %}

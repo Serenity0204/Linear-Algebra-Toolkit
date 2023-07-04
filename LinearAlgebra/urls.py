@@ -10,4 +10,5 @@ urlpatterns = [
         views.colspace_and_rowspace_view,
         name="colspace_and_rowspace",
     ),
+    path("generate-matrix", views.generate_matrix_view, name="matrix"),
 ]
