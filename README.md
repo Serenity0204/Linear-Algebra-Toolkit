@@ -5,13 +5,13 @@ A website to perform common linear algebra operations including inputing matrix,
 
 ## Demo
 * Homepage
-![matrix.png](./demo/matrix.png)
+![matrix.jpg](./demo/matrix.jpg)
 * RREF
-![rref.png](./demo/rref.png)
+![rref.jpg](./demo/rref.jpg)
 * Nullspace
-![null.png](./demo/null.png)
+![null.jpg](./demo/null.jpg)
 * Colspace and Rowspace
-![colandrow.png](./demo/colandrow.png)
+![colandrow.jpg](./demo/colandrow.jpg)
 
 ## General Design Flow:
 https://docs.google.com/document/d/151UgRyzX1GIQnWgQZXjd5QYPJwO0W-ZCCpm5zK5xot8/edit?usp=sharing
